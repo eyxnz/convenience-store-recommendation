@@ -14,6 +14,10 @@ configurations {
     }
 }
 
+bootJar {
+    archiveFileName = 'app.jar' // jar 파일 이름 변경
+}
+
 repositories {
     mavenCentral()
 }
@@ -29,6 +33,12 @@ dependencies {
 
     // Spring boot Devtools
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+    // Spring Data JPA
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    // MariaDB
+    runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
 }
 
 tasks.named('test') {
