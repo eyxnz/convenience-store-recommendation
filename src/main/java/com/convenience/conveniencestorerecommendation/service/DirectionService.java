@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 public class DirectionService { // 사용자 주소 반경 10km 이내의 최대 3개의 편의점 리스트
     private final KakaoCategorySearchService kakaoCategorySearchService;
     private final DirectionRepository directionRepository;
+    private final Base62Service base62Service;
 
     private static final int MAX_SEARCH_COUNT = 3; // 약국 최대 검색 개수
     private static final double RADIUS_KM = 10.0; // 반경 10 km
@@ -32,6 +33,12 @@ public class DirectionService { // 사용자 주소 반경 10km 이내의 최대
         }
 
         return directionRepository.saveAll(directionList);
+    }
+
+    public Direction findById(String encodedId) {
+        Long decodedId = base62Service.decodeDirectionId(encodedId);
+
+        return directionRepository.findById(decodedId).orElse(null);
     }
 
     public List<Direction> buildDirectionListByCategoryApi(DocumentDto inputDocumentDto) {

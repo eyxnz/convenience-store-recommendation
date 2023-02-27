@@ -7,6 +7,7 @@ import com.convenience.conveniencestorerecommendation.dto.api.KakaoApiResponseDt
 import com.convenience.conveniencestorerecommendation.service.api.KakaoAddressSearchService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -25,6 +26,9 @@ import static com.convenience.conveniencestorerecommendation.constant.BaseURL.KA
 public class ConvenienceStoreRecommendationService {
     private final KakaoAddressSearchService kakaoAddressSearchService;
     private final DirectionService directionService;
+    private final Base62Service base62Service;
+
+    @Value("${convenience-store.recommendation.base.url}") private String baseUrl;
 
     public List<OutputDto> recommendConvenienceStoreList(String address) {
         // 사용자 주소 -> 위도, 경도
@@ -60,7 +64,7 @@ public class ConvenienceStoreRecommendationService {
         return OutputDto.builder()
                 .convenienceStoreName(direction.getTargetConvenienceStoreName())
                 .convenienceStoreAddress(direction.getTargetAddress())
-                .directionUrl(result)
+                .directionUrl(baseUrl + base62Service.encodeDirectionId(direction.getId()))
                 .roadViewUrl(KAKAO_ROAD_VIEW_URL.getUrl() + direction.getTargetLatitude() + "," + direction.getTargetLongitude())
                 .distance(String.format("%.2f km", direction.getDistance()))
                 .build();
