@@ -23,6 +23,7 @@ public class DirectionService { // 사용자 주소 반경 10km 이내의 최대
     private final DirectionRepository directionRepository;
 
     private static final int MAX_SEARCH_COUNT = 3; // 약국 최대 검색 개수
+    private static final double RADIUS_KM = 10.0; // 반경 10 km
 
     @Transactional
     public List<Direction> saveAll(List<Direction> directionList) {
@@ -42,7 +43,7 @@ public class DirectionService { // 사용자 주소 반경 10km 이내의 최대
         return kakaoCategorySearchService.requestConvenienceStoreCategorySearch(
                         inputDocumentDto.getLatitude(),
                         inputDocumentDto.getLongitude(),
-                        inputDocumentDto.getDistance()
+                        RADIUS_KM
                 )
                 .getDocumentList()
                 .stream()
