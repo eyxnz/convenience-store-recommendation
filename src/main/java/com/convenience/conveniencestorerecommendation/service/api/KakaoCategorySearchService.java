@@ -30,7 +30,7 @@ public class KakaoCategorySearchService {
             maxAttempts = 2,
             backoff = @Backoff(delay = 2000)
     )
-    public KakaoApiResponseDto requestPharmacyCategorySearch(double latitude, double longitude, double radius) {
+    public KakaoApiResponseDto requestConvenienceStoreCategorySearch(double latitude, double longitude, double radius) {
         // URI 생성
         URI uri = kakaoUriBuilderService.buildUriByCategorySearch(
                 latitude,
