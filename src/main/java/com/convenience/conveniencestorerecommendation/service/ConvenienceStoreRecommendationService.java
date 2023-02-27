@@ -9,11 +9,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+
+import static com.convenience.conveniencestorerecommendation.constant.BaseURL.KAKAO_DIRECTION_URL;
+import static com.convenience.conveniencestorerecommendation.constant.BaseURL.KAKAO_ROAD_VIEW_URL;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -45,12 +49,19 @@ public class ConvenienceStoreRecommendationService {
     }
 
     private OutputDto convertToOutputDto(Direction direction) {
-        // TODO : 화면 구현할 때 directionUrl, roadViewUrl 에 알맞는 데이터를 넣을 예정
+        String params = String.join(",",
+                direction.getTargetConvenienceStoreName(),
+                String.valueOf(direction.getTargetLatitude()),
+                String.valueOf(direction.getTargetLongitude())
+        );
+
+        String result = UriComponentsBuilder.fromHttpUrl(KAKAO_DIRECTION_URL.getUrl() + params).toUriString();
+
         return OutputDto.builder()
                 .convenienceStoreName(direction.getTargetConvenienceStoreName())
                 .convenienceStoreAddress(direction.getTargetAddress())
-                .directionUrl("지도 URL")
-                .roadViewUrl("로드뷰 URL")
+                .directionUrl(result)
+                .roadViewUrl(KAKAO_ROAD_VIEW_URL.getUrl() + direction.getTargetLatitude() + "," + direction.getTargetLongitude())
                 .distance(String.format("%.2f km", direction.getDistance()))
                 .build();
     }
