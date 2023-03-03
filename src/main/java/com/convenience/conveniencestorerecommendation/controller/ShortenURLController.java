@@ -17,15 +17,7 @@ public class ShortenURLController {
 
     @GetMapping("/dir/{encodedId}")
     public String searchDirection(@PathVariable("encodedId") String encodedId) {
-        Direction resultDirection = directionService.findById(encodedId);
-
-        String params = String.join(",",
-                resultDirection.getTargetConvenienceStoreName(),
-                String.valueOf(resultDirection.getTargetLatitude()),
-                String.valueOf(resultDirection.getTargetLongitude())
-        );
-
-        String result = UriComponentsBuilder.fromHttpUrl(KAKAO_DIRECTION_URL.getUrl() + params).toUriString();
+        String result = directionService.findDirectionURLById(encodedId);
 
         return "redirect:" + result;
     }
