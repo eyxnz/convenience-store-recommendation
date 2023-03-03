@@ -6,13 +6,11 @@ spring:
         - common
       prod:
         - common
-
 ---
 spring:
   config:
     activate:
       on-profile: common
-
 kakao:
   rest:
     api:
@@ -31,12 +29,10 @@ spring:
     hibernate:
       ddl-auto: validate
     show-sql: true
-
 convenience-store:
   recommendation:
     base:
       url: http://localhost:8080/dir/
-
 ---
 spring:
   config:
@@ -44,7 +40,7 @@ spring:
       on-profile: prod
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://convenience-store-recommendation:3307/convenience-store-recommendation
+    url: jdbc:mariadb://convenience-store-recommendation-database:3307/convenience-store-recommendation
     username: ${SPRING_DATASOURCE_USERNAME}
     password: ${SPRING_DATASOURCE_PASSWORD}
   jpa:
@@ -55,4 +51,4 @@ spring:
 convenience-store:
   recommendation:
     base:
-      url: http://localhost:8080/dir/ # aws ec2 ip 할당 받은 후 변경 예정s ec2 ip 할당 받은 후 변경 예정
+      url: http://localhost/dir/ # aws ec2 ip 할당 받은 후 변경 예정
