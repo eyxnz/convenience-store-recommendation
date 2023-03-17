@@ -9,11 +9,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+
+import static com.convenience.conveniencestorerecommendation.constant.BaseURL.KAKAO_DIRECTION_URL;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -35,10 +38,18 @@ public class DirectionService { // 사용자 주소 반경 10km 이내의 최대
         return directionRepository.saveAll(directionList);
     }
 
-    public Direction findById(String encodedId) {
+    public String findDirectionURLById(String encodedId) {
         Long decodedId = base62Service.decodeDirectionId(encodedId);
 
-        return directionRepository.findById(decodedId).orElse(null);
+        Direction direction = directionRepository.findById(decodedId).orElse(null);
+
+        String params = String.join(",",
+                direction.getTargetConvenienceStoreName(),
+                String.valueOf(direction.getTargetLatitude()),
+                String.valueOf(direction.getTargetLongitude())
+        );
+
+        return UriComponentsBuilder.fromHttpUrl(KAKAO_DIRECTION_URL + params).toUriString();
     }
 
     public List<Direction> buildDirectionListByCategoryApi(DocumentDto inputDocumentDto) {

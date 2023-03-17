@@ -1,11 +1,16 @@
 spring:
   datasource:
     driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
-    url: jdbc:tc:mariadb:10:///
+    url: jdbc:tc:mariadb:10:///convenience-store-recommendation
   jpa:
     hibernate:
       ddl-auto: create
     show-sql: true
+
+convenience-store:
+  recommendation:
+    base:
+      url: http://localhost:8080/dir/
 
 kakao:
   rest:
