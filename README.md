@@ -32,4 +32,3 @@ Spring Boot
 * Handlebars
 * Base62
 * Docker
-* AWS EC2
